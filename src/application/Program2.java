@@ -26,6 +26,12 @@ public class Program2 {
 		departmentDao.update(dep);
 		System.out.println("Deparment updated successfully");
 
+		System.out.println("=== Test 4: department findAll ===");
+		var deps = departmentDao.findAll();
+		for (var uniqueDep : deps) {
+			System.out.println(uniqueDep);
+		}
+
 		input.close();
 	}
 }
