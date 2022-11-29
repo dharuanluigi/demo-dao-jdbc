@@ -1,6 +1,7 @@
 package application;
 
 import model.dao.DaoFactory;
+import model.entities.Department;
 
 public class Program {
 
@@ -8,8 +9,13 @@ public class Program {
 		var sellerDao = DaoFactory.createSellerDao();
 
 		System.out.println("=== TEST 1: seller findById ====");
-		var seller = sellerDao.findById(3);
+		var singleSeller = sellerDao.findById(3);
+		System.out.println(singleSeller);
 
-		System.out.println(seller);
+		System.out.println("\n=== TEST 2: seller findByDepartment ====");
+		var sellers = sellerDao.findByDepartment(new Department(2, null));
+		for (var seller : sellers) {
+			System.out.println(seller);
+		}
 	}
 }
