@@ -2,6 +2,7 @@ package model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -49,7 +50,24 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
 	@Override
 	public void update(Department department) {
-		// TODO Auto-generated method stub
+		PreparedStatement state = null;
+
+		try {
+			state = connection.prepareStatement("UPDATE department SET Name = ? WHERE Id = ?");
+
+			state.setString(1, department.getName());
+			state.setInt(2, department.getId());
+
+			var affectedRows = state.executeUpdate();
+
+			if (affectedRows == 0) {
+				throw new DbException("No department updated. No department was found with id: " + department.getId());
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(state);
+		}
 
 	}
 
@@ -61,8 +79,28 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
 	@Override
 	public Department findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement state = null;
+		ResultSet result = null;
+
+		try {
+			state = connection.prepareStatement("SELECT * FROM department WHERE Id = ?");
+
+			state.setInt(1, id);
+
+			result = state.executeQuery();
+
+			if (result.next()) {
+				return new Department(result.getInt("Id"), result.getString("Name"));
+			} else {
+				throw new DbException("No results found in deparment with id: " + id);
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(state);
+			DB.closeResultSet(result);
+		}
+
 	}
 
 	@Override

@@ -12,9 +12,19 @@ public class Program2 {
 		var departmentDao = DaoFactory.createDepartmentDao();
 
 		System.out.println("=== Test 1: department insert ===");
-		var newDep = new Department("Music");
-		departmentDao.insert(newDep);
-		System.out.println("New department added id is: " + newDep.getId());
+		var dep = new Department("Music");
+		departmentDao.insert(dep);
+		System.out.println("New department added id is: " + dep.getId());
+
+		System.out.println("=== Test 2: department findById ===");
+		dep = departmentDao.findById(2);
+		System.out.println(dep);
+
+		System.out.println("=== Test 3: department update ===");
+		dep = departmentDao.findById(6);
+		dep.setName("TI");
+		departmentDao.update(dep);
+		System.out.println("Deparment updated successfully");
 
 		input.close();
 	}
