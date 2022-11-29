@@ -32,6 +32,12 @@ public class Program2 {
 			System.out.println(uniqueDep);
 		}
 
+		System.out.println("=== Test 5: department deleteById ===");
+		System.out.print("Type department id to delete: ");
+		var depId = input.nextInt();
+		departmentDao.deleteById(depId);
+		System.out.println("Department was deleted");
+
 		input.close();
 	}
 }
