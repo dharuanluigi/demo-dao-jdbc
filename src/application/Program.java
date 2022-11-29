@@ -13,5 +13,4 @@ public class Program {
 		System.out.println(dep);
 		System.out.println(seller);
 	}
-
 }
