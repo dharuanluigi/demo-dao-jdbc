@@ -49,7 +49,7 @@ public class SellerDaoJDBC implements SellerDao {
 				DB.closeResultSet(resultSet);
 
 			} else {
-				throw new DbException("Unexpected error! No rows was affected");
+				throw new DbException("Unexpected error! No rows was affected when try insert new seller");
 			}
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -61,7 +61,30 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void update(Seller seller) {
-		// TODO Auto-generated method stub
+		PreparedStatement statement = null;
+
+		try {
+			statement = connection.prepareStatement("UPDATE seller "
+					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " + "WHERE Id = ?");
+
+			statement.setString(1, seller.getName());
+			statement.setString(2, seller.getEmail());
+			statement.setDate(3, new Date(seller.getBirthDate().getTime()));
+			statement.setDouble(4, seller.getBaseSalary());
+			statement.setInt(5, seller.getDepartment().getId());
+			statement.setInt(6, seller.getId());
+
+			var affectedRows = statement.executeUpdate();
+
+			if (affectedRows == 0) {
+				throw new DbException("Unexpected error! No rows was updated!");
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(statement);
+
+		}
 
 	}
 
