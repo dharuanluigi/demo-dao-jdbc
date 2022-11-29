@@ -13,8 +13,14 @@ public class Program {
 		System.out.println(singleSeller);
 
 		System.out.println("\n=== TEST 2: seller findByDepartment ====");
-		var sellers = sellerDao.findByDepartment(new Department(2, null));
-		for (var seller : sellers) {
+		var allSellers = sellerDao.findByDepartment(new Department(2, null));
+		for (var seller : allSellers) {
+			System.out.println(seller);
+		}
+
+		System.out.println("\n=== TEST 3: seller findAll ====");
+		allSellers = sellerDao.findAll();
+		for (var seller : allSellers) {
 			System.out.println(seller);
 		}
 	}
