@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Date;
+
 import model.dao.DaoFactory;
 import model.entities.Department;
+import model.entities.Seller;
 
 public class Program {
 
@@ -13,7 +16,8 @@ public class Program {
 		System.out.println(singleSeller);
 
 		System.out.println("\n=== TEST 2: seller findByDepartment ====");
-		var allSellers = sellerDao.findByDepartment(new Department(2, null));
+		var department = new Department(2, null);
+		var allSellers = sellerDao.findByDepartment(department);
 		for (var seller : allSellers) {
 			System.out.println(seller);
 		}
@@ -23,5 +27,10 @@ public class Program {
 		for (var seller : allSellers) {
 			System.out.println(seller);
 		}
+
+		System.out.println("\n=== TEST 4: seller insert ====");
+		singleSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.0, department);
+		sellerDao.insert(singleSeller);
+		System.out.println("Seller added! New id = " + singleSeller.getId());
 	}
 }
